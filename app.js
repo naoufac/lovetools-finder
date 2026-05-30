@@ -12,7 +12,7 @@ const CATEGORY_LABELS = {
   'finance': 'Finance',
   'connection': 'Connection',
   'learning': 'Learning',
-  'play-and-explore': 'Play & Explore'
+  'play': 'Play & Explore'
 };
 
 let _cache = null;
