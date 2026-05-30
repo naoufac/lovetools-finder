@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="Discover tools curated with love — productivity, health, finance, social, education, and entertainment." />
+  <meta name="theme-color" content="#d4a843" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="manifest" href="/manifest.json" />
+
+  <title>LoveTools Finder</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/styles.css" />
+
+  <!-- PWA Icons (inline SVG fallback) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛠️</text></svg>" />
+</head>
+<body>
+
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <!-- ── App Shell ─────────────────────────────────────────────── -->
+  <div id="app">
+
+    <!-- App Bar -->
+    <header class="app-bar" role="banner">
+      <div class="app-bar__inner">
+        <h1 class="app-bar__title">
+          <svg width="22" height="22" viewBox="0 0 100 100" aria-hidden="true" fill="#d4a843">
+            <text y=".9em" font-size="90">🛠️</text>
+          </svg>
+          LoveTools
+        </h1>
+        <div class="app-bar__actions">
+          <button class="icon-btn" id="search-toggle" aria-label="Toggle search" aria-expanded="false">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e8e4de" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <!-- Inline search bar (toggled) -->
+      <div class="app-bar__search" id="app-search" hidden>
+        <div class="search-bar">
+          <svg class="search-bar__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9e9a94" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+          <input
+            type="search"
+            id="global-search"
+            class="search-bar__input"
+            placeholder="Find your tool..."
+            aria-label="Search all tools"
+            autocomplete="off"
+          />
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main" class="app-content" role="main">
+
+      <!-- Home View -->
+      <section id="home-view" class="view home-view" aria-labelledby="home-title">
+        <div class="container">
+          <!-- Search bar (visible on mobile in-view) -->
+          <div class="search-bar search-bar--home" id="home-search-bar">
+            <svg class="search-bar__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9e9a94" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            </svg>
+            <input
+              type="search"
+              id="home-search"
+              class="search-bar__input"
+              placeholder="Find your tool..."
+              aria-label="Search all tools"
+              autocomplete="off"
+            />
+          </div>
+
+          <p class="welcome-text" id="welcome-text" style="text-align: center; color: var(--text-muted); margin-bottom: 1.5rem;">Curious what the LoveTools community swears by? Tap a category to explore.</p>
+          <h2 id="home-title" class="section-title">Explore by Category</h2>
+
+          <div class="category-grid" id="category-grid" role="list">
+            <!-- Rendered by JS -->
+          </div>
+
+          <div id="home-search-results" hidden></div>
+        </div>
+      </section>
+
+      <!-- Category View -->
+      <section id="category-view" class="view category-view" aria-labelledby="cat-title" hidden>
+        <div class="container">
+          <div class="view-header">
+            <button class="back-btn" id="back-btn" aria-label="Back to categories">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="m15 18-6-6 6-6"/>
+              </svg>
+              Back
+            </button>
+            <div>
+              <h2 id="cat-title" class="category-title"></h2>
+              <span class="view-header__count" id="cat-count"></span>
+            </div>
+          </div>
+
+          <div class="search-bar search-bar--scoped" id="cat-search-bar" style="margin: 1rem 0">
+            <svg class="search-bar__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9e9a94" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            </svg>
+            <input
+              type="search"
+              id="cat-search"
+              class="search-bar__input"
+              placeholder="Filter in category..."
+              aria-label="Filter tools in this category"
+              autocomplete="off"
+            />
+          </div>
+
+          <div class="tool-grid" id="tool-grid" role="list">
+            <!-- Rendered by JS -->
+          </div>
+
+          <div id="cat-search-results" hidden></div>
+          <div id="empty-state" hidden>
+            <p class="empty-state__text">Hmm, nothing here yet. Try a different search — your tool is out there.</p>
+            <a href="#home" class="btn btn--primary btn--sm">Browse all categories</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tool Detail (modal on desktop / page on mobile) -->
+      <section id="tool-view" class="view tool-view" aria-labelledby="tool-detail-title" hidden>
+        <div class="container">
+          <button class="tool-detail__close" id="detail-close" aria-label="Close tool detail">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M18 6 6 18M6 6l12 12"/>
+            </svg>
+          </button>
+          <div id="tool-detail-content">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Offline Banner -->
+    <div class="offline-banner" id="offline-banner" hidden role="alert">
+      <p>You're offline — but don't worry, your tools are still here.</p>
+    </div>
+
+    <!-- Bottom Nav -->
+    <nav class="bottom-nav" role="navigation" aria-label="Main navigation">
+      <a href="#home" class="bottom-nav__item is-active" aria-current="page" data-nav="home">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        <span>Home</span>
+      </a>
+      <a href="#home" class="bottom-nav__item" data-nav="search" id="nav-search">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <span>Search</span>
+      </a>
+      <a href="#home" class="bottom-nav__item" data-nav="favorites" id="nav-favorites">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+        <span>Favorites</span>
+      </a>
+    </nav>
+
+  </div><!-- /#app -->
+
+  <script type="module" src="/app.js"></script>
+
+  <script>
+    // Register Service Worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(err => {
+        console.warn('SW registration failed:', err);
+      });
+    }
+  </script>
+
+</body>
+</html>
